@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 
 const App = () => {
@@ -6,7 +7,9 @@ const App = () => {
   const [hours, setHours] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-  const intervalRef = useRef(null); // Store interval ID
+  const [quote, setQuote] = useState();
+
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     if (isRunning) {
@@ -29,8 +32,17 @@ const App = () => {
       clearInterval(intervalRef.current);
     }
 
-    return () => clearInterval(intervalRef.current); // Cleanup
+    return () => clearInterval(intervalRef.current);
   }, [isRunning]);
+
+  useEffect(() => {
+    const getQuote = async () =>{
+      const response = await axios.get('https://qapi.vercel.app/api/random');
+      setQuote(`"${response.data.quote}" ~${response.data.author}`);
+      console.log(response);
+    }
+    getQuote();
+  }, [minutes])
 
   const handleStartButton = () => {
     setIsRunning(true);
@@ -47,15 +59,17 @@ const App = () => {
     setHours(0);
   };
 
-  // Format numbers to be two digits (e.g., 01, 09, 15)
+
   const formatTime = (num) => String(num).padStart(2, "0");
 
   return (
     <div className="text-white justify-center items-center flex flex-col w-full h-screen bg-zinc-900">
-      <h3 className="text-5xl">Online Timer & Stopwatch</h3>
+      <h3 className="text-5xl">Online Study Motivation Stopwatch</h3>
       <h1 className="text-[250px] font-semibold">
         {formatTime(hours)} : {formatTime(minutes)} : {formatTime(seconds)}
       </h1>
+
+      <h1 className="text-white text-2xl overflow-auto mb-10">{(quote) ? quote : 'Loading...'}</h1>
 
       <div className="flex gap-10">
         <button
