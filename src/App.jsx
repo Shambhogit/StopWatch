@@ -64,12 +64,12 @@ const App = () => {
 
   return (
     <div className="text-white justify-center items-center flex flex-col w-full h-screen bg-zinc-900">
-      <h3 className="text-5xl">Online Study Motivation Stopwatch</h3>
+      <h3 className="text-5xl text-white/50">Online Study Motivation Stopwatch</h3>
       <h1 className="text-[250px] font-semibold">
         {formatTime(hours)} : {formatTime(minutes)} : {formatTime(seconds)}
       </h1>
 
-      <h1 className="text-white text-2xl overflow-auto mb-10">{(quote) ? quote : 'Loading...'}</h1>
+      <h1 className="text-white/90 text-3xl text-center overflow-auto mb-10">{(quote) ? quote : 'Loading...'}</h1>
 
       <div className="flex gap-10">
         <button
